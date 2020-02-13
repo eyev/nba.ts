@@ -1,6 +1,6 @@
 {
-  "name": "nba-ts",
-  "version": "0.0.0",
+  "name": "nba.ts",
+  "version": "1.0.0",
   "description": "",
   "keywords": [],
   "main": "dist/nba-ts.umd.js",

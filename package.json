@@ -1,8 +1,8 @@
 {
   "name": "nba.ts",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "version": "1.0.1",
+  "description": "NPM Library for getting various NBA statistics, utilizes NBA's own API while remapping them into more sane models for Node/client side consumption",
+  "keywords": ["nba", "typescript", "national basketball association", "sports", "statistics", "box scores", "jdawg"],
   "main": "dist/nba-ts.umd.js",
   "module": "dist/nba-ts.es5.js",
   "typings": "dist/types/nba-ts.d.ts",
@@ -12,7 +12,7 @@
   "author": "Justin Conklin <justin@eyev.org>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/eyev/nba.ts.git"
   },
   "license": "MIT",
   "engines": {

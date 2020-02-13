@@ -1,5 +1,5 @@
 import { fromYYYYMMDDToDate } from '../utils'
-import { NbaLegacyCalendar } from './nba-legacy-calendar'
+import { NbaLegacyCalendar } from './legacy/nba-legacy-calendar'
 
 export interface NbaCalendar {
   id: string // YYYYMMDD
@@ -26,7 +26,10 @@ export function createCurrentCalendar(calendar: NbaLegacyCalendar): NbaCalendar[
     throw new Error('Unable to get response')
   }
   // scrap internal, has no value.
-  delete calendar._internal
+  delete calendar._internal;
+  delete calendar.startDate;
+  delete calendar.endDate;
+  delete calendar.startDateCurrentSeason;
 
   const currentSeason = Object.entries(calendar).map<NbaCalendar>(games => ({
     id: games[0],

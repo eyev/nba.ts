@@ -1,4 +1,4 @@
-import { NbaLegacyScoreboard, NbaLegacyScoreboardGame, NbaLegacyScoreboardTeam } from './nba-legacy-scoreboard';
+import { NbaLegacyScoreboard, NbaLegacyScoreboardGame, NbaLegacyScoreboardTeam } from './legacy/nba-legacy-scoreboard';
 import { TEAMS } from '../config/nba-teams';
 
 export interface NbaScoreboardGame {
@@ -27,6 +27,10 @@ interface NbaScoreBoardGameTeam {
 }
 
 export function createScoreBoard(scoreboard: NbaLegacyScoreboard): NbaScoreboardGame[] {
+  if (!scoreboard) {
+    throw new Error('Unable to get response')
+  }
+
   return scoreboard.games.map(game => ({
     id: game.gameId,
     broadcaster:
@@ -45,7 +49,7 @@ export function createScoreBoard(scoreboard: NbaLegacyScoreboard): NbaScoreboard
   }));
 }
 
-function getSeriesRecord(game: NbaLegacyScoreboardGame): string {
+export function getSeriesRecord(game: NbaLegacyScoreboardGame): string {
   let visitorWins = +game.vTeam.seriesWin;
   let homeWins = +game.hTeam.seriesWin;
   if (game.statusNum > 2) {

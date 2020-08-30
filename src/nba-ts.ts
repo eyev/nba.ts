@@ -1,29 +1,28 @@
-import { Observable, throwError, of } from 'rxjs';
+import { AbortController } from 'abort-controller';
+import { Observable, throwError } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { root } from 'rxjs/internal-compatibility';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { AbortController } from 'abort-controller';
-
-import {
-  NbaPlayer,
-  createNbaPlayers,
-  createNbaPlayerById,
-  createNbaPlayersByTeamId,
-} from './types/nba-players';
-import { NbaCalendar, createCalendar, createCurrentCalendar } from './types/nba-calendar';
-import { NbaLegacyCalendar } from './types/legacy/nba-legacy-calendar';
-import { NbaScoreboardGame, createScoreBoard } from './types/nba-scoreboard';
-import { NbaLegacyScoreboard } from './types/legacy/nba-legacy-scoreboard';
-import { NbaLegacyPlayers } from './types/legacy/nba-legacy-player';
-import { NbaPlayerProfile, createNbaPlayerProfile } from './types/nba-player-profile';
-import { NbaLegacyPlayerProfile } from './types/legacy/nba-legacy-player-profile';
-import { NbaPlayByPlay, createNbaPlayByPlay } from './types/nba-play-by-play';
-import { NbaLegacyPbp } from './types/legacy/nba-legacy-pbp';
-import { NbaGame, createNbaGame } from './types/nba-game';
-import { NbaLegacyBoxScore } from './types/legacy/nba-legacy-boxscore';
 import { FETCH_OPTIONS } from './config/fetch-options';
 import { ROUTES } from './config/routes';
+import { NbaLegacyBoxScore } from './types/legacy/nba-legacy-boxscore';
+import { NbaLegacyCalendar } from './types/legacy/nba-legacy-calendar';
+import { NbaLegacyPbp } from './types/legacy/nba-legacy-pbp';
+import { NbaLegacyPlayers } from './types/legacy/nba-legacy-player';
+import { NbaLegacyPlayerProfile } from './types/legacy/nba-legacy-player-profile';
+import { NbaLegacyScoreboard } from './types/legacy/nba-legacy-scoreboard';
+import { createCalendar, createCurrentCalendar, NbaCalendar } from './types/nba-calendar';
+import { createNbaGame, NbaGame } from './types/nba-game';
+import { createNbaPlayByPlay, NbaPlayByPlay } from './types/nba-play-by-play';
+import { createNbaPlayerProfile, NbaPlayerProfile } from './types/nba-player-profile';
+import {
+  createNbaPlayerById,
+  createNbaPlayers,
+  createNbaPlayersByTeamId,
+  NbaPlayer,
+} from './types/nba-players';
+import { createScoreBoard, NbaScoreboardGame } from './types/nba-scoreboard';
 
 const fetch = require('node-fetch');
 
@@ -208,3 +207,5 @@ export namespace NbaPromise {
     return Nba.playByPlay(date, gameId, quarter).toPromise();
   }
 }
+
+export { NbaCalendar, NbaGame, NbaPlayByPlay, NbaPlayer, NbaPlayerProfile, NbaScoreboardGame };

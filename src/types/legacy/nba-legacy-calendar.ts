@@ -1,6 +1,8 @@
-import { NbaLegacyInternal } from "./nba-legacy-internal";
+import { NbaLegacyInternal } from './nba-legacy-internal';
 
 export interface NbaLegacyCalendar {
-  [key: string]: string | NbaLegacyInternal;
-  _internal: NbaLegacyInternal;
+  [key: string]: string;
+  startDate: string;
+  endDate: string;
+  startDateCurrentSeason: string;
 }

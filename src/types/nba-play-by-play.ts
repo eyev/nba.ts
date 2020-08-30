@@ -1,5 +1,5 @@
-import { NbaLegacyPbp } from "./legacy/nba-legacy-pbp";
-import { getTeam } from "./nba-players";
+import { NbaLegacyPbp } from './legacy/nba-legacy-pbp';
+import { getTeam } from '../utils';
 
 // eventMsgType's - actually guessing
 // 1 Made shot
@@ -47,7 +47,7 @@ const EVENT_TYPES: {
   '13': 'END_PERIOD',
   '18': 'INSTANT_REPLAY_REVIEW',
   '20': 'STOPPAGE',
-}
+};
 
 export function createNbaPlayByPlay(pbp: NbaLegacyPbp): NbaPlayByPlay[] {
   return pbp.plays.map(plays => ({
@@ -59,8 +59,8 @@ export function createNbaPlayByPlay(pbp: NbaLegacyPbp): NbaPlayByPlay[] {
     teamId: plays.teamId,
     teamName: getTeam(plays.teamId).fullName,
     teamTriCode: getTeam(plays.teamId).tricode,
-    homeScore:plays.hTeamScore,
+    homeScore: plays.hTeamScore,
     visitorScore: plays.vTeamScore,
-    isScoreChange: plays.isScoreChange
+    isScoreChange: plays.isScoreChange,
   }));
 }

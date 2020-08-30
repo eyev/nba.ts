@@ -3,10 +3,8 @@ import { fromFetch } from 'rxjs/fetch';
 import { root } from 'rxjs/internal-compatibility';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
-import { ROUTES } from '@nbats/config/routes';
 import { AbortController } from 'abort-controller';
 
-import { FETCH_OPTIONS } from '@nbats/config/fetch-options';
 import {
   NbaPlayer,
   createNbaPlayers,
@@ -17,13 +15,15 @@ import { NbaCalendar, createCalendar, createCurrentCalendar } from './types/nba-
 import { NbaLegacyCalendar } from './types/legacy/nba-legacy-calendar';
 import { NbaScoreboardGame, createScoreBoard } from './types/nba-scoreboard';
 import { NbaLegacyScoreboard } from './types/legacy/nba-legacy-scoreboard';
-import { NbaLegacyPlayers } from './types/legacy/nba-legacy.player';
+import { NbaLegacyPlayers } from './types/legacy/nba-legacy-player';
 import { NbaPlayerProfile, createNbaPlayerProfile } from './types/nba-player-profile';
 import { NbaLegacyPlayerProfile } from './types/legacy/nba-legacy-player-profile';
 import { NbaPlayByPlay, createNbaPlayByPlay } from './types/nba-play-by-play';
 import { NbaLegacyPbp } from './types/legacy/nba-legacy-pbp';
 import { NbaGame, createNbaGame } from './types/nba-game';
 import { NbaLegacyBoxScore } from './types/legacy/nba-legacy-boxscore';
+import { FETCH_OPTIONS } from './config/fetch-options';
+import { ROUTES } from './config/routes';
 
 const fetch = require('node-fetch');
 
@@ -38,7 +38,6 @@ function get<T>(url: string): Observable<T> {
 }
 
 export namespace Nba {
-
   /**
    * Calendar - retrieve list of games currently being spit out by NBA api
    */
@@ -75,9 +74,9 @@ export namespace Nba {
    */
 
   export function game(date: string, id: string): Observable<NbaGame> {
-    return get<NbaLegacyBoxScore>(`${ROUTES.data}/data/10s/prod/v1/${date}/${id}_boxscore.json`).pipe(
-      map(game => createNbaGame(game)),
-    );
+    return get<NbaLegacyBoxScore>(
+      `${ROUTES.data}/data/10s/prod/v1/${date}/${id}_boxscore.json`,
+    ).pipe(map(game => createNbaGame(game)));
   }
 
   /**
@@ -131,7 +130,6 @@ export namespace Nba {
       `${ROUTES.data}/data/10s/prod/v1/${date}/${gameId}_pbp_${quarter}.json`,
     ).pipe(map(pbp => createNbaPlayByPlay(pbp)));
   }
-
 }
 
 export namespace NbaPromise {

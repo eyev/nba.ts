@@ -1,4 +1,4 @@
-import { NbaLegacyInternal } from "./nba-legacy-internal";
+import { NbaLegacyInternal } from './nba-legacy-internal';
 
 export interface NbaLegacyPlayers {
   _internal: NbaLegacyInternal;
@@ -8,7 +8,7 @@ export interface NbaLegacyPlayers {
     sacrammento: NbaLegacyPlayer[];
     vegas: NbaLegacyPlayer[];
     utah: NbaLegacyPlayer[];
-  }
+  };
 }
 interface NbaLegacyPlayerTeamSitesOnly {
   playerCode: string;
@@ -54,6 +54,3 @@ export interface NbaLegacyPlayer {
   lastAffiliation: string;
   country: string;
 }
-
-
-

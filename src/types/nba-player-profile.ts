@@ -1,5 +1,9 @@
-import { NbaLegacyPlayerProfile, NbaLegacyPlayerProfileStats, NbaLegacyPlayerProfileRegularSeason } from "./legacy/nba-legacy-player-profile";
-import { getTeam } from "./nba-players";
+import {
+  NbaLegacyPlayerProfile,
+  NbaLegacyPlayerProfileStats,
+  NbaLegacyPlayerProfileRegularSeason,
+} from './legacy/nba-legacy-player-profile';
+import { getTeam } from '../utils';
 
 export interface NbaPlayerProfile {
   teamId: string;
@@ -11,12 +15,12 @@ export interface NbaPlayerProfile {
 }
 
 export function createNbaPlayerProfile(player: NbaLegacyPlayerProfile): NbaPlayerProfile {
- return {
-  teamId: player.league.standard.teamId,
-  teamName: getTeam(player.league.standard.teamId).fullName,
-  teamTriCode: getTeam(player.league.standard.teamId).tricode,
-  latest: player.league.standard.stats.latest,
-  regularSeason: player.league.standard.stats.regularSeason,
-  career: player.league.standard.stats.careerSummary,
- }
+  return {
+    teamId: player.league.standard.teamId,
+    teamName: getTeam(player.league.standard.teamId).fullName,
+    teamTriCode: getTeam(player.league.standard.teamId).tricode,
+    latest: player.league.standard.stats.latest,
+    regularSeason: player.league.standard.stats.regularSeason,
+    career: player.league.standard.stats.careerSummary,
+  };
 }

@@ -1,4 +1,17 @@
-export const TEAMS = [
+export interface NbaTeam {
+  teamId: string;
+  tricode: string;
+  fullName: string;
+  moniker: string;
+  primaryColor: string;
+  secondaryColor: string;
+  web: {
+    homepage: string;
+    tickets: string;
+  };
+}
+
+export const TEAMS: NbaTeam[] = [
   {
     teamId: '1610612737',
     tricode: 'ATL',
@@ -8,8 +21,8 @@ export const TEAMS = [
     secondaryColor: '#e21a37',
     web: {
       homepage: 'http://www.nba.com/hawks',
-      tickets: 'http://www.nba.com/hawks/tickets'
-    }
+      tickets: 'http://www.nba.com/hawks/tickets',
+    },
   },
   {
     teamId: '1610612751',
@@ -20,8 +33,8 @@ export const TEAMS = [
     secondaryColor: '#000000',
     web: {
       homepage: 'http://www.nba.com/nets',
-      tickets: 'http://www.nba.com/nets/tickets'
-    }
+      tickets: 'http://www.nba.com/nets/tickets',
+    },
   },
   {
     teamId: '1610612738',
@@ -32,8 +45,8 @@ export const TEAMS = [
     secondaryColor: '#00611b',
     web: {
       homepage: 'http://www.nba.com/celtics',
-      tickets: 'http://www.nba.com/celtics/tickets'
-    }
+      tickets: 'http://www.nba.com/celtics/tickets',
+    },
   },
   {
     teamId: '1610612766',
@@ -44,8 +57,8 @@ export const TEAMS = [
     secondaryColor: '#00848e',
     web: {
       homepage: 'http://www.nba.com/hornets',
-      tickets: 'http://www.nba.com/hornets/tickets'
-    }
+      tickets: 'http://www.nba.com/hornets/tickets',
+    },
   },
   {
     teamId: '1610612741',
@@ -56,8 +69,8 @@ export const TEAMS = [
     secondaryColor: '#b00203',
     web: {
       homepage: 'http://www.nba.com/bulls',
-      tickets: 'http://www.nba.com/bulls/tickets'
-    }
+      tickets: 'http://www.nba.com/bulls/tickets',
+    },
   },
   {
     teamId: '1610612739',
@@ -68,8 +81,8 @@ export const TEAMS = [
     secondaryColor: '#860038',
     web: {
       homepage: 'http://www.nba.com/cavaliers',
-      tickets: 'http://www.nba.com/cavaliers/tickets'
-    }
+      tickets: 'http://www.nba.com/cavaliers/tickets',
+    },
   },
   {
     teamId: '1610612742',
@@ -80,8 +93,8 @@ export const TEAMS = [
     secondaryColor: '#006bb6',
     web: {
       homepage: 'http://www.mavs.com',
-      tickets: 'http://www.mavs.com/tickets'
-    }
+      tickets: 'http://www.mavs.com/tickets',
+    },
   },
   {
     teamId: '1610612743',
@@ -92,8 +105,8 @@ export const TEAMS = [
     secondaryColor: '#0e2240',
     web: {
       homepage: 'http://www.nba.com/nuggets',
-      tickets: 'http://www.nba.com/nuggets/tickets'
-    }
+      tickets: 'http://www.nba.com/nuggets/tickets',
+    },
   },
   {
     teamId: '1610612765',
@@ -104,8 +117,8 @@ export const TEAMS = [
     secondaryColor: '#fa002c',
     web: {
       homepage: 'http://www.nba.com/pistons',
-      tickets: 'http://www.nba.com/pistons/tickets'
-    }
+      tickets: 'http://www.nba.com/pistons/tickets',
+    },
   },
 
   {
@@ -117,8 +130,8 @@ export const TEAMS = [
     secondaryColor: '#003399',
     web: {
       homepage: 'http://www.nba.com/warriors',
-      tickets: 'http://www.nba.com/warriors/tickets'
-    }
+      tickets: 'http://www.nba.com/warriors/tickets',
+    },
   },
   {
     teamId: '1610612745',
@@ -129,8 +142,8 @@ export const TEAMS = [
     secondaryColor: '#cd212b',
     web: {
       homepage: 'http://www.nba.com/rockets',
-      tickets: 'http://www.nba.com/rockets/tickets'
-    }
+      tickets: 'http://www.nba.com/rockets/tickets',
+    },
   },
   {
     teamId: '1610612754',
@@ -141,8 +154,8 @@ export const TEAMS = [
     secondaryColor: '#ffb517',
     web: {
       homepage: 'http://www.nba.com/pacers',
-      tickets: 'http://www.nba.com/pacers/tickets'
-    }
+      tickets: 'http://www.nba.com/pacers/tickets',
+    },
   },
   {
     teamId: '1610612746',
@@ -153,8 +166,8 @@ export const TEAMS = [
     secondaryColor: '#ed174b',
     web: {
       homepage: 'http://www.nba.com/clippers',
-      tickets: 'http://www.nba.com/clippers/tickets'
-    }
+      tickets: 'http://www.nba.com/clippers/tickets',
+    },
   },
   {
     teamId: '1610612747',
@@ -165,8 +178,8 @@ export const TEAMS = [
     secondaryColor: '#fdba33',
     web: {
       homepage: 'http://www.nba.com/lakers',
-      tickets: 'http://www.nba.com/lakers/tickets'
-    }
+      tickets: 'http://www.nba.com/lakers/tickets',
+    },
   },
   {
     teamId: '1610612763',
@@ -177,8 +190,8 @@ export const TEAMS = [
     secondaryColor: '#5d76a9',
     web: {
       homepage: 'http://www.nba.com/grizzlies',
-      tickets: 'http://www.nba.com/grizzlies/tickets'
-    }
+      tickets: 'http://www.nba.com/grizzlies/tickets',
+    },
   },
   {
     teamId: '1610612748',
@@ -189,8 +202,8 @@ export const TEAMS = [
     secondaryColor: '#98002e',
     web: {
       homepage: 'http://www.nba.com/heat',
-      tickets: 'http://www.nba.com/heat/tickets'
-    }
+      tickets: 'http://www.nba.com/heat/tickets',
+    },
   },
   {
     teamId: '1610612749',
@@ -201,8 +214,8 @@ export const TEAMS = [
     secondaryColor: '#00471b',
     web: {
       homepage: 'http://www.nba.com/bucks',
-      tickets: 'http://www.nba.com/bucks/tickets'
-    }
+      tickets: 'http://www.nba.com/bucks/tickets',
+    },
   },
   {
     teamId: '1610612750',
@@ -213,8 +226,8 @@ export const TEAMS = [
     secondaryColor: '#2b6291',
     web: {
       homepage: 'http://www.nba.com/timberwolves',
-      tickets: 'http://www.nba.com/timberwolves/tickets'
-    }
+      tickets: 'http://www.nba.com/timberwolves/tickets',
+    },
   },
   {
     teamId: '1610612740',
@@ -225,8 +238,8 @@ export const TEAMS = [
     secondaryColor: '#0c2340',
     web: {
       homepage: 'http://www.nba.com/pelicans',
-      tickets: 'http://www.nba.com/pelicans/tickets'
-    }
+      tickets: 'http://www.nba.com/pelicans/tickets',
+    },
   },
   {
     teamId: '1610612752',
@@ -237,8 +250,8 @@ export const TEAMS = [
     secondaryColor: '#f58426',
     web: {
       homepage: 'http://www.nba.com/knicks',
-      tickets: 'http://www.nba.com/knicks/tickets'
-    }
+      tickets: 'http://www.nba.com/knicks/tickets',
+    },
   },
   {
     teamId: '1610612760',
@@ -249,8 +262,8 @@ export const TEAMS = [
     secondaryColor: '#002d62',
     web: {
       homepage: 'http://www.nba.com/thunder',
-      tickets: 'http://www.nba.com/thunder/tickets'
-    }
+      tickets: 'http://www.nba.com/thunder/tickets',
+    },
   },
   {
     teamId: '1610612753',
@@ -261,8 +274,8 @@ export const TEAMS = [
     secondaryColor: '#0077c0',
     web: {
       homepage: 'http://www.nba.com/magic',
-      tickets: 'http://www.nba.com/magic/tickets'
-    }
+      tickets: 'http://www.nba.com/magic/tickets',
+    },
   },
   {
     teamId: '1610612755',
@@ -273,8 +286,8 @@ export const TEAMS = [
     secondaryColor: '#ef0022',
     web: {
       homepage: 'http://www.nba.com/sixers',
-      tickets: 'http://www.nba.com/sixers/tickets'
-    }
+      tickets: 'http://www.nba.com/sixers/tickets',
+    },
   },
   {
     teamId: '1610612756',
@@ -285,8 +298,8 @@ export const TEAMS = [
     secondaryColor: '#e76221',
     web: {
       homepage: 'http://www.nba.com/suns',
-      tickets: 'http://www.nba.com/suns/tickets'
-    }
+      tickets: 'http://www.nba.com/suns/tickets',
+    },
   },
   {
     teamId: '1610612757',
@@ -297,8 +310,8 @@ export const TEAMS = [
     secondaryColor: '#cc0000',
     web: {
       homepage: 'http://www.nba.com/blazers',
-      tickets: 'http://www.nba.com/blazers/tickets'
-    }
+      tickets: 'http://www.nba.com/blazers/tickets',
+    },
   },
   {
     teamId: '1610612758',
@@ -309,8 +322,8 @@ export const TEAMS = [
     secondaryColor: '#51388a',
     web: {
       homepage: 'http://www.nba.com/kings',
-      tickets: 'http://www.nba.com/kings/tickets'
-    }
+      tickets: 'http://www.nba.com/kings/tickets',
+    },
   },
   {
     teamId: '1610612759',
@@ -321,8 +334,8 @@ export const TEAMS = [
     secondaryColor: '#959191',
     web: {
       homepage: 'http://www.nba.com/spurs',
-      tickets: 'http://www.nba.com/spurs/tickets'
-    }
+      tickets: 'http://www.nba.com/spurs/tickets',
+    },
   },
   {
     teamId: '1610612761',
@@ -333,8 +346,8 @@ export const TEAMS = [
     secondaryColor: '#bd1b21',
     web: {
       homepage: 'http://www.nba.com/raptors',
-      tickets: 'http://www.nba.com/raptors/tickets'
-    }
+      tickets: 'http://www.nba.com/raptors/tickets',
+    },
   },
   {
     teamId: '1610612762',
@@ -345,8 +358,8 @@ export const TEAMS = [
     secondaryColor: '#f9a11e',
     web: {
       homepage: 'http://www.nba.com/jazz',
-      tickets: 'http://www.nba.com/jazz/tickets'
-    }
+      tickets: 'http://www.nba.com/jazz/tickets',
+    },
   },
   {
     teamId: '1610612764',
@@ -357,7 +370,7 @@ export const TEAMS = [
     secondaryColor: '#cf142b',
     web: {
       homepage: 'http://www.nba.com/wizards',
-      tickets: 'http://www.nba.com/wizards/tickets'
-    }
-  }
+      tickets: 'http://www.nba.com/wizards/tickets',
+    },
+  },
 ];

@@ -1,6 +1,10 @@
-import { NbaLegacyBoxScore, NbaLegacyBoxScoreGameDataTeam, NbaLegacyBoxScoreStats, NbaLegacyBoxScoreActivePlayer } from './legacy/nba-legacy-boxscore';
-import { TEAMS } from '@nbats/config/nba-teams';
-import { getTeam } from './nba-players';
+import {
+  NbaLegacyBoxScore,
+  NbaLegacyBoxScoreGameDataTeam,
+  NbaLegacyBoxScoreStats,
+  NbaLegacyBoxScoreActivePlayer,
+} from './legacy/nba-legacy-boxscore';
+import { TEAMS } from '../config/nba-teams';
 
 export interface NbaGame {
   id: string;
@@ -95,7 +99,7 @@ export interface NbaGameTeamStats {
 }
 
 export function createNbaGame(game: NbaLegacyBoxScore): NbaGame {
-  if(!game) {
+  if (!game) {
     throw new Error('Unable to locate game');
   }
   return {
@@ -106,9 +110,10 @@ export function createNbaGame(game: NbaLegacyBoxScore): NbaGame {
       state: game.basicGameData.arena.stateAbbr,
       country: game.basicGameData.arena.country,
     },
-    broadcaster: game.basicGameData.watch.broadcast.broadcasters.national.length > 0
-    ? game.basicGameData.watch.broadcast.broadcasters.national[0].shortName
-    : '',
+    broadcaster:
+      game.basicGameData.watch.broadcast.broadcasters.national.length > 0
+        ? game.basicGameData.watch.broadcast.broadcasters.national[0].shortName
+        : '',
     clock: game.basicGameData.clock,
     currentPeriod: game.basicGameData.period.current,
     isComplete: game.basicGameData.statusNum > 2,
@@ -120,8 +125,16 @@ export function createNbaGame(game: NbaLegacyBoxScore): NbaGame {
     nugget: game.basicGameData.nugget.text,
     seriesRecord: getSeriesRecord(game),
     startTimeEST: game.basicGameData.startTimeEastern,
-    home: createScoreboardTeam(game.basicGameData.hTeam, game.stats.hTeam, game.stats.activePlayers),
-    visitor: createScoreboardTeam(game.basicGameData.vTeam, game.stats.vTeam, game.stats.activePlayers)
+    home: createScoreboardTeam(
+      game.basicGameData.hTeam,
+      game.stats.hTeam,
+      game.stats.activePlayers,
+    ),
+    visitor: createScoreboardTeam(
+      game.basicGameData.vTeam,
+      game.stats.vTeam,
+      game.stats.activePlayers,
+    ),
   };
 }
 
@@ -153,11 +166,15 @@ function getSeriesRecord(game: NbaLegacyBoxScore): string {
   }
 }
 
-function createScoreboardTeam(team: NbaLegacyBoxScoreGameDataTeam, stats: NbaLegacyBoxScoreStats, players: NbaLegacyBoxScoreActivePlayer[]): NbaGameTeam {
+function createScoreboardTeam(
+  team: NbaLegacyBoxScoreGameDataTeam,
+  stats: NbaLegacyBoxScoreStats,
+  players: NbaLegacyBoxScoreActivePlayer[],
+): NbaGameTeam {
   const teamDetails = TEAMS.find(t => t.teamId === team.teamId);
 
-  if(!teamDetails) {
-    throw new Error('Couldn\'t find team');
+  if (!teamDetails) {
+    throw new Error("Couldn't find team");
   }
   return {
     id: teamDetails.teamId,
@@ -191,38 +208,43 @@ function createScoreboardTeam(team: NbaLegacyBoxScoreGameDataTeam, stats: NbaLeg
       steals: stats.totals.steals,
       turnovers: stats.totals.turnovers,
       blocks: stats.totals.blocks,
-    }
-  }
+    },
+  };
 }
 
-function createNbaGamePlayer(stats: NbaLegacyBoxScoreActivePlayer[], teamId: string): NbaGamePlayer[] {
-  return stats.filter(p => p.teamId === teamId).map(tp => ({
-    id: tp.personId,
-    fullName: `${tp.firstName} ${tp.lastName}`,
-    shortName:`${tp.firstName.charAt(0)}. ${tp.lastName}`,
-    teamId: tp.teamId,
-    isOnCourt: tp.isOnCourt,
-    points: tp.points,
-    pos: tp.pos,
-    min: tp.min,
-    fgm: tp.fgm,
-    fga: tp.fga,
-    fgp: tp.fgp,
-    ftm: tp.ftm,
-    fta: tp.fta,
-    ftp: tp.ftp,
-    tpm: tp.tpm,
-    tpa: tp.tpa,
-    tpp: tp.tpp,
-    offReb: tp.offReb,
-    defReb: tp.defReb,
-    totReb: tp.totReb,
-    assists: tp.assists,
-    pFouls: tp.pFouls,
-    steals: tp.steals,
-    turnovers: tp.turnovers,
-    blocks: tp.blocks,
-    plusMinus: tp.plusMinus,
-    dnp: tp.dnp
-  }))
+function createNbaGamePlayer(
+  stats: NbaLegacyBoxScoreActivePlayer[],
+  teamId: string,
+): NbaGamePlayer[] {
+  return stats
+    .filter(p => p.teamId === teamId)
+    .map(tp => ({
+      id: tp.personId,
+      fullName: `${tp.firstName} ${tp.lastName}`,
+      shortName: `${tp.firstName.charAt(0)}. ${tp.lastName}`,
+      teamId: tp.teamId,
+      isOnCourt: tp.isOnCourt,
+      points: tp.points,
+      pos: tp.pos,
+      min: tp.min,
+      fgm: tp.fgm,
+      fga: tp.fga,
+      fgp: tp.fgp,
+      ftm: tp.ftm,
+      fta: tp.fta,
+      ftp: tp.ftp,
+      tpm: tp.tpm,
+      tpa: tp.tpa,
+      tpp: tp.tpp,
+      offReb: tp.offReb,
+      defReb: tp.defReb,
+      totReb: tp.totReb,
+      assists: tp.assists,
+      pFouls: tp.pFouls,
+      steals: tp.steals,
+      turnovers: tp.turnovers,
+      blocks: tp.blocks,
+      plusMinus: tp.plusMinus,
+      dnp: tp.dnp,
+    }));
 }

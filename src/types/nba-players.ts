@@ -1,5 +1,5 @@
-import { NbaLegacyPlayers, NbaLegacyPlayerTeam } from "./legacy/nba-legacy.player";
-import { TEAMS } from "../config/nba-teams";
+import { NbaLegacyPlayers, NbaLegacyPlayerTeam, NbaLegacyPlayer } from './legacy/nba-legacy-player';
+import { getTeam } from '../utils';
 
 export interface NbaPlayer {
   id: string;
@@ -36,15 +36,14 @@ export interface NbaPlayerDraft {
   year: string;
 }
 
-
 export function createNbaPlayers(players: NbaLegacyPlayers): NbaPlayer[] {
-  if (!players) {
-    throw new Error('Unable to get response')
+  if (!players || players.league.standard.length === 0) {
+    throw new Error('Unable to get response');
   }
 
   return players.league.standard.map(player => ({
     id: player.personId,
-    college: (player.collegeName === '' || player.collegeName ===  'No College') ? player.lastAffiliation : player.collegeName,
+    college: getCollegeOrAffiliation(player),
     country: player.country,
     dateOfBirth: player.dateOfBirthUTC,
     debutYear: player.nbaDebutYear,
@@ -52,7 +51,7 @@ export function createNbaPlayers(players: NbaLegacyPlayers): NbaPlayer[] {
       teamId: player.draft.teamId,
       pick: player.draft.pickNum,
       round: player.draft.roundNum,
-      year: player.draft.seasonYear
+      year: player.draft.seasonYear,
     },
     firstName: player.firstName,
     fullName: `${player.firstName} ${player.lastName}`,
@@ -65,7 +64,7 @@ export function createNbaPlayers(players: NbaLegacyPlayers): NbaPlayer[] {
     teams: createPlayerTeams(player.teams),
     weight: player.weightPounds,
     yearsPro: player.yearsPro,
-  }))
+  }));
 }
 
 function createPlayerTeams(teams: NbaLegacyPlayerTeam[]): NbaPlayerTeam[] {
@@ -75,44 +74,23 @@ function createPlayerTeams(teams: NbaLegacyPlayerTeam[]): NbaPlayerTeam[] {
     end: team.seasonEnd,
     teamName: getTeam(team.teamId).fullName,
     teamTriCode: getTeam(team.teamId).tricode,
-  }))
-}
-
-export function getTeam(teamId: string) {
-  const team = TEAMS.find(t => t.teamId === teamId);
-
-  if(!team) {
-    return {
-      teamId: '',
-      tricode: 'NA',
-      fullName: 'N/A',
-      moniker: '',
-      primaryColor: '',
-      secondaryColor: '',
-      web: {
-        homepage: '',
-        tickets: '',
-      }
-    }
-  }
-
-  return team;
+  }));
 }
 
 export function createNbaPlayerById(players: NbaLegacyPlayers, id: string): NbaPlayer {
-  if (!players) {
-    throw new Error('Unable to get response')
+  if (!players || players.league.standard.length === 0) {
+    throw new Error('Unable to get players');
   }
 
   const player = players.league.standard.find(p => p.personId === id);
 
-  if(!player) {
+  if (!player) {
     throw new Error('Unable to find player.');
   }
 
   return {
     id: player.personId,
-    college: (player.collegeName === '' || player.collegeName ===  'No College') ? player.lastAffiliation : player.collegeName,
+    college: getCollegeOrAffiliation(player),
     country: player.country,
     dateOfBirth: player.dateOfBirthUTC,
     debutYear: player.nbaDebutYear,
@@ -120,7 +98,7 @@ export function createNbaPlayerById(players: NbaLegacyPlayers, id: string): NbaP
       teamId: player.draft.teamId,
       pick: player.draft.pickNum,
       round: player.draft.roundNum,
-      year: player.draft.seasonYear
+      year: player.draft.seasonYear,
     },
     firstName: player.firstName,
     fullName: `${player.firstName} ${player.lastName}`,
@@ -133,42 +111,44 @@ export function createNbaPlayerById(players: NbaLegacyPlayers, id: string): NbaP
     teams: createPlayerTeams(player.teams),
     weight: player.weightPounds,
     yearsPro: player.yearsPro,
-  }
+  };
 }
 
 export function createNbaPlayersByTeamId(players: NbaLegacyPlayers, teamId: string): NbaPlayer[] {
-  if (!players) {
-    throw new Error('Unable to get response')
+  if (!players || players.league.standard.length === 0) {
+    throw new Error('Unable to get response');
   }
 
   const teamPlayers = players.league.standard.filter(p => p.teamId === teamId);
 
-  if(!players) {
-    throw new Error('Unable to find players.');
-  }
   return teamPlayers.map(player => ({
     id: player.personId,
-    firstName: player.firstName,
-    lastName: player.lastName,
-    fullName: `${player.firstName} ${player.lastName}`,
-    position: player.pos,
-    number: player.jersey,
-    height: `${player.heightFeet}' ${player.heightInches}"`,
-    weight: player.weightPounds,
-    dateOfBirth: player.dateOfBirthUTC,
+    college: getCollegeOrAffiliation(player),
     country: player.country,
+    dateOfBirth: player.dateOfBirthUTC,
     debutYear: player.nbaDebutYear,
-    yearsPro: player.yearsPro,
-    isActive: player.isActive,
-    teamId: player.teamId,
-    college: (player.collegeName === '' || 'No College') ? player.lastAffiliation : player.collegeName,
-    teams: createPlayerTeams(player.teams),
     draft: {
       teamId: player.draft.teamId,
       pick: player.draft.pickNum,
       round: player.draft.roundNum,
-      year: player.draft.seasonYear
-    }
+      year: player.draft.seasonYear,
+    },
+    firstName: player.firstName,
+    fullName: `${player.firstName} ${player.lastName}`,
+    height: `${player.heightFeet}' ${player.heightInches}"`,
+    isActive: player.isActive,
+    lastName: player.lastName,
+    number: player.jersey,
+    position: player.pos,
+    teamId: player.teamId,
+    teams: createPlayerTeams(player.teams),
+    weight: player.weightPounds,
+    yearsPro: player.yearsPro,
   }));
+}
 
+export function getCollegeOrAffiliation(player: NbaLegacyPlayer): string {
+  return player.collegeName === '' || player.collegeName === 'No College'
+    ? player.lastAffiliation
+    : player.collegeName;
 }

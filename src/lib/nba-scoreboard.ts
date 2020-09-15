@@ -1,4 +1,8 @@
-import { NbaLegacyScoreboard, NbaLegacyScoreboardGame, NbaLegacyScoreboardTeam } from './legacy/nba-legacy-scoreboard';
+import {
+  NbaLegacyScoreboard,
+  NbaLegacyScoreboardGame,
+  NbaLegacyScoreboardTeam,
+} from './legacy/nba-legacy-scoreboard';
 import { TEAMS } from '../config/nba-teams';
 
 export interface NbaScoreboardGame {
@@ -28,13 +32,15 @@ interface NbaScoreBoardGameTeam {
 
 export function createScoreBoard(scoreboard: NbaLegacyScoreboard): NbaScoreboardGame[] {
   if (!scoreboard) {
-    throw new Error('Unable to get response')
+    throw new Error('Unable to get response');
   }
 
   return scoreboard.games.map(game => ({
     id: game.gameId,
     broadcaster:
-      game.watch.broadcast.broadcasters.national.length > 0 ? game.watch.broadcast.broadcasters.national[0].shortName : '',
+      game.watch.broadcast.broadcasters.national.length > 0
+        ? game.watch.broadcast.broadcasters.national[0].shortName
+        : '',
     clock: game.clock,
     currentPeriod: +game.period.current,
     isComplete: +game.statusNum > 2,
@@ -80,8 +86,8 @@ export function getSeriesRecord(game: NbaLegacyScoreboardGame): string {
 function createScoreboardTeam(team: NbaLegacyScoreboardTeam): NbaScoreBoardGameTeam {
   const teamDetails = TEAMS.find(t => t.teamId === team.teamId);
 
-  if(!teamDetails) {
-    throw new Error('Couldn\'t find team');
+  if (!teamDetails) {
+    throw new Error("Couldn't find team");
   }
   return {
     id: teamDetails.teamId,
@@ -89,6 +95,6 @@ function createScoreboardTeam(team: NbaLegacyScoreboardTeam): NbaScoreBoardGameT
     triCode: teamDetails.tricode,
     points: team.score,
     lineScore: team.linescore.map(score => score.score),
-    record: `${team.win}-${team.loss}`
-  }
+    record: `${team.win}-${team.loss}`,
+  };
 }

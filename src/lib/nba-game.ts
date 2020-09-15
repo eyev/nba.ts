@@ -1,10 +1,10 @@
+import { TEAMS } from '../config/nba-teams';
 import {
   NbaLegacyBoxScore,
+  NbaLegacyBoxScoreActivePlayer,
   NbaLegacyBoxScoreGameDataTeam,
   NbaLegacyBoxScoreStats,
-  NbaLegacyBoxScoreActivePlayer,
 } from './legacy/nba-legacy-boxscore';
-import { TEAMS } from '../config/nba-teams';
 
 export interface NbaGame {
   id: string;

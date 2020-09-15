@@ -1,4 +1,4 @@
-import { NbaLegacyInternal } from "./nba-legacy-internal";
+import { NbaLegacyInternal } from './nba-legacy-internal';
 
 export interface NbaLegacyPlayerProfile {
   _internal: NbaLegacyInternal;
@@ -9,9 +9,9 @@ export interface NbaLegacyPlayerProfile {
         latest: NbaLegacyPlayerProfileStats;
         careerSummary: NbaLegacyPlayerProfileStats;
         regularSeason: NbaLegacyPlayerProfileRegularSeason[];
-      }
-    }
-  }
+      };
+    };
+  };
 }
 
 export interface NbaLegacyPlayerProfileStats {

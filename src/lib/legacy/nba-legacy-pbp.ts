@@ -1,4 +1,4 @@
-import { NbaLegacyInternal } from "./nba-legacy-internal";
+import { NbaLegacyInternal } from './nba-legacy-internal';
 
 export interface NbaLegacyPbp {
   _internal: NbaLegacyInternal;
@@ -14,6 +14,6 @@ export interface NbaLegacyPbp {
     isVideoAvailable: boolean;
     formatted: {
       description: string;
-    }
+    };
   }[];
 }

@@ -1,28 +1,27 @@
 import { AbortController } from 'abort-controller';
+import { FETCH_OPTIONS } from 'config/fetch-options';
+import { ROUTES } from 'config/routes';
 import { Observable, throwError } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { root } from 'rxjs/internal-compatibility';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { FETCH_OPTIONS } from './config/fetch-options';
-import { ROUTES } from './config/routes';
-import { NbaLegacyBoxScore } from './types/legacy/nba-legacy-boxscore';
-import { NbaLegacyCalendar } from './types/legacy/nba-legacy-calendar';
-import { NbaLegacyPbp } from './types/legacy/nba-legacy-pbp';
-import { NbaLegacyPlayers } from './types/legacy/nba-legacy-player';
-import { NbaLegacyPlayerProfile } from './types/legacy/nba-legacy-player-profile';
-import { NbaLegacyScoreboard } from './types/legacy/nba-legacy-scoreboard';
-import { createCalendar, createCurrentCalendar, NbaCalendar } from './types/nba-calendar';
-import { createNbaGame, NbaGame } from './types/nba-game';
-import { createNbaPlayByPlay, NbaPlayByPlay } from './types/nba-play-by-play';
-import { createNbaPlayerProfile, NbaPlayerProfile } from './types/nba-player-profile';
+import { NbaLegacyBoxScore } from './lib/legacy/nba-legacy-boxscore';
+import { NbaLegacyCalendar } from './lib/legacy/nba-legacy-calendar';
+import { NbaLegacyPbp } from './lib/legacy/nba-legacy-pbp';
+import { NbaLegacyPlayers } from './lib/legacy/nba-legacy-player';
 import {
-  createNbaPlayerById,
-  createNbaPlayers,
-  createNbaPlayersByTeamId,
-  NbaPlayer,
-} from './types/nba-players';
-import { createScoreBoard, NbaScoreboardGame } from './types/nba-scoreboard';
+  NbaLegacyPlayerProfile,
+  NbaLegacyPlayerProfileRegularSeason,
+  NbaLegacyPlayerProfileStats,
+} from './lib/legacy/nba-legacy-player-profile';
+import { NbaLegacyScoreboard } from './lib/legacy/nba-legacy-scoreboard';
+import { createCalendar, createCurrentCalendar } from './lib/nba-calendar';
+import { createNbaGame } from './lib/nba-game';
+import { createNbaPlayByPlay } from './lib/nba-play-by-play';
+import { createNbaPlayerProfile } from './lib/nba-player-profile';
+import { createNbaPlayerById, createNbaPlayers, createNbaPlayersByTeamId } from './lib/nba-players';
+import { createScoreBoard, NbaScoreboardGame } from './lib/nba-scoreboard';
 
 const fetch = require('node-fetch');
 
@@ -36,7 +35,7 @@ function get<T>(url: string): Observable<T> {
   );
 }
 
-export namespace Nba {
+export namespace NbaRx {
   /**
    * Calendar - retrieve list of games currently being spit out by NBA api
    */
@@ -131,19 +130,19 @@ export namespace Nba {
   }
 }
 
-export namespace NbaPromise {
+export namespace Nba {
   /**
    * Calendar - retrieve list of games currently being spit out by NBA api
    */
   export function calendar(): Promise<NbaCalendar[]> {
-    return Nba.calendar().toPromise();
+    return NbaRx.calendar().toPromise();
   }
 
   /**
    * currentYearCalendar - same as Calendar, however only returns dates for current season (based on nba start/end date)
    */
   export function currentYearCalendar(): Promise<NbaCalendar[]> {
-    return Nba.currentYearCalendar().toPromise();
+    return NbaRx.currentYearCalendar().toPromise();
   }
 
   /**
@@ -152,7 +151,7 @@ export namespace NbaPromise {
    * @param date {string} YYYYMMDD
    */
   export function scoreboard(date: string): Promise<NbaScoreboardGame[]> {
-    return Nba.scoreboard(date).toPromise();
+    return NbaRx.scoreboard(date).toPromise();
   }
 
   /**
@@ -162,7 +161,7 @@ export namespace NbaPromise {
    */
 
   export function game(date: string, id: string): Promise<NbaGame> {
-    return Nba.game(date, id).toPromise();
+    return NbaRx.game(date, id).toPromise();
   }
 
   /**
@@ -170,7 +169,7 @@ export namespace NbaPromise {
    * @param year YYYY
    */
   export function players(year: string): Promise<NbaPlayer[]> {
-    return Nba.players(year).toPromise();
+    return NbaRx.players(year).toPromise();
   }
 
   /**
@@ -179,11 +178,11 @@ export namespace NbaPromise {
    * @param id
    */
   export function playerById(year: string, id: string): Promise<NbaPlayer> {
-    return Nba.playerById(year, id).toPromise();
+    return NbaRx.playerById(year, id).toPromise();
   }
 
   export function playersByTeamId(year: string, teamId: string): Promise<NbaPlayer[]> {
-    return Nba.playersByTeamId(year, teamId).toPromise();
+    return NbaRx.playersByTeamId(year, teamId).toPromise();
   }
 
   /**
@@ -191,7 +190,7 @@ export namespace NbaPromise {
    * @param id
    */
   export function playerProfile(year: string, id: string): Promise<NbaPlayerProfile> {
-    return Nba.playerProfile(year, id).toPromise();
+    return NbaRx.playerProfile(year, id).toPromise();
   }
 
   /**
@@ -204,8 +203,161 @@ export namespace NbaPromise {
     gameId: string,
     quarter: string,
   ): Promise<NbaPlayByPlay[]> {
-    return Nba.playByPlay(date, gameId, quarter).toPromise();
+    return NbaRx.playByPlay(date, gameId, quarter).toPromise();
   }
 }
 
-export { NbaCalendar, NbaGame, NbaPlayByPlay, NbaPlayer, NbaPlayerProfile, NbaScoreboardGame };
+// interfaces
+export interface NbaCalendar {
+  id: string; // YYYYMMDD
+  games: number;
+  date: Date;
+}
+export interface NbaGame {
+  id: string;
+  arena: {
+    name: string;
+    city: string;
+    state: string;
+    country: string;
+  };
+  broadcaster: string;
+  clock: string;
+  currentPeriod: number;
+  isComplete: boolean;
+  isEndOfPeriod: boolean;
+  isHalftime: boolean;
+  isOvertime: boolean;
+  isPlayoffs: boolean;
+  isStarted: boolean;
+  nugget: string;
+  seriesRecord: string;
+  startTimeEST: string;
+
+  home: NbaGameTeam;
+  visitor: NbaGameTeam;
+}
+
+export interface NbaGameTeam {
+  id: string;
+  lineScore: string[];
+  name: string;
+  players: NbaGamePlayer[];
+  points: string;
+  record: string;
+  teamId: string;
+  teamStats: NbaGameTeamStats;
+  triCode: string;
+}
+
+export interface NbaGamePlayer {
+  id: string;
+  fullName: string;
+  shortName: string;
+  teamId: string;
+  isOnCourt: boolean;
+  points: string;
+  pos: string;
+  min: string;
+  fgm: string;
+  fga: string;
+  fgp: string;
+  ftm: string;
+  fta: string;
+  ftp: string;
+  tpm: string;
+  tpa: string;
+  tpp: string;
+  offReb: string;
+  defReb: string;
+  totReb: string;
+  assists: string;
+  pFouls: string;
+  steals: string;
+  turnovers: string;
+  blocks: string;
+  plusMinus: string;
+  dnp: string;
+}
+
+export interface NbaGameTeamStats {
+  fastBreakPoints: string;
+  pointsInPaint: string;
+  secondChancePoints: string;
+  pointsOffTurnovers: string;
+  points: string;
+  fgm: string;
+  fga: string;
+  fgp: string;
+  ftm: string;
+  fta: string;
+  ftp: string;
+  tpm: string;
+  tpa: string;
+  tpp: string;
+  offReb: string;
+  defReb: string;
+  totReb: string;
+  assists: string;
+  pFouls: string;
+  steals: string;
+  turnovers: string;
+  blocks: string;
+}
+
+export interface NbaPlayByPlay {
+  clock: string;
+  eventType: string;
+  eventMsgKey: string;
+  description: string;
+  personId: string;
+  teamId: string;
+  teamName: string;
+  teamTriCode: string;
+  homeScore: string;
+  visitorScore: string;
+  isScoreChange: boolean;
+}
+export interface NbaPlayerProfile {
+  teamId: string;
+  teamName: string;
+  teamTriCode: string;
+  latest: NbaLegacyPlayerProfileStats;
+  career: NbaLegacyPlayerProfileStats;
+  regularSeason: NbaLegacyPlayerProfileRegularSeason[];
+}
+
+export interface NbaPlayer {
+  id: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  position: string;
+  number: string;
+  isActive: boolean;
+  height: string;
+  weight: string;
+  dateOfBirth: string;
+  country: string;
+  teamId: string;
+  teams: NbaPlayerTeam[];
+  draft: NbaPlayerDraft;
+  debutYear: string;
+  yearsPro: string;
+  college: string;
+}
+
+export interface NbaPlayerTeam {
+  id: string;
+  teamName: string;
+  teamTriCode: string;
+  start: string;
+  end: string;
+}
+
+export interface NbaPlayerDraft {
+  teamId: string;
+  pick: string;
+  round: string;
+  year: string;
+}

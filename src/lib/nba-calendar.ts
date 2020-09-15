@@ -1,11 +1,6 @@
+import { NbaCalendar } from '../nba-ts';
 import { fromYYYYMMDDToDate } from '../utils';
 import { NbaLegacyCalendar } from './legacy/nba-legacy-calendar';
-
-export interface NbaCalendar {
-  id: string; // YYYYMMDD
-  games: number;
-  date: Date;
-}
 
 export function createCalendar(calendar: NbaLegacyCalendar): NbaCalendar[] {
   if (!calendar) {
@@ -17,11 +12,14 @@ export function createCalendar(calendar: NbaLegacyCalendar): NbaCalendar[] {
   return Object.entries(calendar)
     .map<NbaCalendar>(games => ({
       id: games[0],
-      games: games[0] !== ('startDate' || 'endDate' || 'startDateCurrentSeason') ? +games[1] : 0,
+      games:
+        games[0] !== ('startDate' || 'endDate' || 'startDateCurrentSeason')
+          ? +(games[1] as string)
+          : 0,
       date:
         games[0] !== ('startDate' || 'endDate' || 'startDateCurrentSeason')
           ? fromYYYYMMDDToDate(games[0])
-          : fromYYYYMMDDToDate(games[1]),
+          : fromYYYYMMDDToDate(games[1] as string),
     }))
     .filter(
       calendar =>
@@ -42,7 +40,7 @@ export function createCurrentCalendar(calendar: NbaLegacyCalendar): NbaCalendar[
 
   const currentSeason = Object.entries(calendar).map<NbaCalendar>(games => ({
     id: games[0],
-    games: +games[1],
+    games: +(games[1] as string),
     date: fromYYYYMMDDToDate(games[0]),
   }));
   const currentSeasonStartIndex = currentSeason.findIndex(

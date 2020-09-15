@@ -1,7 +1,8 @@
-import { NbaLegacyPbp } from './legacy/nba-legacy-pbp';
+import { NbaPlayByPlay } from '../nba-ts';
 import { getTeam } from '../utils';
+import { NbaLegacyPbp } from './legacy/nba-legacy-pbp';
 
-// eventMsgType's - actually guessing
+// eventMsgType, best guess atm
 // 1 Made shot
 // 2 Missed shot
 // 3 FT
@@ -15,20 +16,6 @@ import { getTeam } from '../utils';
 // 13 End Period
 // 18 Instant Replay Review
 // 20 Stoppage
-
-export interface NbaPlayByPlay {
-  clock: string;
-  eventType: string;
-  eventMsgKey: string;
-  description: string;
-  personId: string;
-  teamId: string;
-  teamName: string;
-  teamTriCode: string;
-  homeScore: string;
-  visitorScore: string;
-  isScoreChange: boolean;
-}
 
 const EVENT_TYPES: {
   [key: string]: string;

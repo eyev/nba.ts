@@ -39,7 +39,7 @@ export interface NbaLegacyScoreboardGame {
   watch: {
     broadcast: {
       broadcasters: NbaLegacyScoreboardBroadcasters;
-    }
+    };
     video: NbaLegacyScoreboardVideo;
     audio: {
       national: NbaLegacyScoreboardAudio;

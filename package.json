@@ -1,6 +1,6 @@
 {
   "name": "nba.ts",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "NPM Library for getting various NBA statistics, utilizes NBA's own API while remapping them into more sane models for Node/client side consumption",
   "keywords": [
     "nba",
@@ -88,7 +88,6 @@
   "devDependencies": {
     "@commitlint/cli": "7.1.2",
     "@commitlint/config-conventional": "7.1.2",
-    "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/jest": "25.1.2",
     "@types/node": "13.7.1",
     "@types/node-fetch": "2.5.4",

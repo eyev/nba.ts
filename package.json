@@ -1,5 +1,5 @@
 {
-  "name": "nba.ts",
+  "name": "@scoredeck/nba",
   "version": "1.1.0",
   "description": "NPM Library for getting various NBA statistics, utilizes NBA's own API while remapping them into more sane models for Node/client side consumption",
   "keywords": [
@@ -20,7 +20,7 @@
   "author": "Justin Conklin <justin@eyev.org>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eyev/nba.ts.git"
+    "url": "git+https://github.com/eyev/nba.ts.git"
   },
   "license": "MIT",
   "engines": {
@@ -133,5 +133,13 @@
   },
   "resolutions": {
     "handlebars": "4.5.0"
+  },
+  "bugs": {
+    "url": "https://github.com/eyev/nba.ts/issues"
+  },
+  "homepage": "https://github.com/eyev/nba.ts#readme",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
   }
 }

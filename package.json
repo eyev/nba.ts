@@ -127,7 +127,7 @@
   "dependencies": {
     "abort-controller": "3.0.0",
     "abortcontroller-polyfill": "1.4.0",
-    "moment": "2.24.0",
+    "moment": "2.29.2",
     "node-fetch": "2.6.1",
     "rxjs": "6.5.4"
   },
